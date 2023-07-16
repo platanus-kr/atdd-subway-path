@@ -44,17 +44,20 @@ public class Section {
     @Column(nullable = false)
     private Long distance;
 
+
     public void addDownStation(Section newSection) {
         validDistance(newSection.getDistance());
         this.distance = this.getDistance() - newSection.getDistance();
         this.downStation = newSection.getUpStation();
     }
 
+
     public void addUpStation(Section newSection) {
         validDistance(newSection.getDistance());
         this.distance = this.getDistance() - newSection.getDistance();
         this.upStation = newSection.getDownStation();
     }
+
 
     // TODO : 구간 단위 테스트 작성하기
     public void moveDownStationFromTargetSection(Section targetSection) {

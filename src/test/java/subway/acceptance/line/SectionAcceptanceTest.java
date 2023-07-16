@@ -70,7 +70,6 @@ public class SectionAcceptanceTest extends AcceptanceTest {
     }
 
 
-
     // deprecated week2-2
 
 //    /**
@@ -118,6 +117,7 @@ public class SectionAcceptanceTest extends AcceptanceTest {
 //        // then
 //        assertThat(deleteSectionResponse.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
 //    }
+
 
     /**
      * Given 노선이 있고

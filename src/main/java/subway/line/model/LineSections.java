@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+
 @Embeddable
 @NoArgsConstructor
 public class LineSections {
@@ -119,6 +120,7 @@ public class LineSections {
 
     private void remove(Section section) {
         this.sections.remove(section);
+
     }
 
     private void addSection(Section newSection) {
@@ -161,6 +163,7 @@ public class LineSections {
         if (sectionWithDownStationByDownStation.isPresent() && sectionWithDownStationByUpStation.isEmpty()) {
             Section existSection = sectionWithDownStationByDownStation.get();
             existSection.addDownStation(newSection);
+
         }
 
     }
@@ -172,10 +175,10 @@ public class LineSections {
         if (sectionWithUpStationByUpStation.isPresent() && sectionWithUpStationByDownStation.isEmpty()) {
             Section existSection = sectionWithUpStationByUpStation.get();
             existSection.addUpStation(newSection);
+
         }
 
     }
-
     private Optional<Section> findSectionWithUpStationByStation(Station upStation) {
         return this.sections.stream()
                 .filter(section -> section.getUpStation().equals(upStation))
@@ -199,6 +202,7 @@ public class LineSections {
 //                .filter(section -> section.getDownStation().equals(upStation))
 //                .findAny();
 //    }
+
 
     private Optional<Station> findAnyStationInNewSectionIsStationInExistLine(Section section, List<Station> stationsInLine) {
         return stationsInLine.stream()
@@ -234,7 +238,6 @@ public class LineSections {
                     SubwayMessage.STATION_DELETE_MINIMAL_VALID_MESSAGE.getFormatMessage(MINIMAL_SECTION_SIZE));
         }
     }
-
 //    private void validRemoveStationIsDownStationInExistLine(Station targetStation) {
 //        Section lastSection = getLastSection();
 //        Station downStation = lastSection.getDownStation();
@@ -242,4 +245,5 @@ public class LineSections {
 //            throw new SubwayBadRequestException(SubwayMessage.SECTION_DELETE_LAST_STATION_VALID_MESSAGE);
 //        }
 //    }
+
 }
