@@ -3,7 +3,7 @@ package subway.line.model;
 import lombok.NoArgsConstructor;
 import subway.exception.SubwayBadRequestException;
 import subway.exception.SubwayNotFoundException;
-import subway.line.constant.SubwayMessage;
+import subway.constant.SubwayMessage;
 import subway.station.model.Station;
 
 import javax.persistence.CascadeType;
