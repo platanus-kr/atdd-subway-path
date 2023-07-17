@@ -1,9 +1,17 @@
 package subway.acceptance.path;
 
+import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 import subway.acceptance.AcceptanceTest;
+import subway.acceptance.line.LineRequestGenerator;
+import subway.acceptance.line.LineSteps;
+import subway.acceptance.line.SectionFixture;
 import subway.acceptance.station.StationSteps;
 
 import java.util.HashMap;
@@ -11,7 +19,12 @@ import java.util.Map;
 
 @DisplayName("경로 관련 기능")
 public class PathAcceptanceTest extends AcceptanceTest {
-    public Map<String, Long> stationsMap = new HashMap<>();
+    private Map<String, Long> stationsMap = new HashMap<>();
+
+    private String 일호선_URI;
+    private String 삼호선_URI;
+    private String 신분당선_URI;
+
 
     // TODO: 인수 테스트 작성
 
@@ -21,13 +34,28 @@ public class PathAcceptanceTest extends AcceptanceTest {
      * *3호선*                            *신분당선*
      * d:2                                 d:10
      * |                                   |
-     * 남부터미널역  --- *3호선* -- d:3 --- 양재
+     * 남부터미널역  --- *3호선* -- d:3 --- 양재역
      */
 
     @BeforeEach
-    void addLine() {
-        // "교대역", "강남역", "역삼역", "선릉역", "삼성역", "잠실역", "강변역", "건대역", "성수역", "왕십리역"
+    void createLine() {
         stationsMap = StationSteps.기본_역_생성();
+
+        var 이호선_요청 = LineRequestGenerator.generateLineCreateRequest("2호선", "bg-green-600", getStationId("강남역"), getStationId("교대역"), 10L);
+        LineSteps.노선_생성_API(이호선_요청);
+
+        var 삼호선_요청 = LineRequestGenerator.generateLineCreateRequest("3호선","bg-amber-600", getStationId("교대역"), getStationId("남부터미널역"),2L);
+        var createResponse = LineSteps.노선_생성_API(삼호선_요청);
+        final String createdLocation = createResponse.header("Location");
+        final String appendLocation = createdLocation + "/sections";
+
+        var 삼호선_끝에_구간_추가 = SectionFixture.구간_요청_만들기(getStationId("남부터미널역"), getStationId("양재역"), 3L);
+        LineSteps.구간_추가_API(appendLocation, 삼호선_끝에_구간_추가);
+
+        var 신분당선_요청 = LineRequestGenerator.generateLineCreateRequest("신분당선","bg-hotpink-600", getStationId("강남역"), getStationId("양재역"),10L);
+        LineSteps.노선_생성_API(신분당선_요청);
+
+        LineSteps.노선_목록_조회_API();
     }
 
     /**
@@ -39,6 +67,17 @@ public class PathAcceptanceTest extends AcceptanceTest {
     @DisplayName("같은 노선의 경로를 조회한다")
     @Test
     void getPath() {
+        // TODO : 여기서 부터 하면 됨
+        UriComponents retrieveQueryWithBaseUri = UriComponentsBuilder
+                .fromUriString("/path")
+                .queryParam("source", getStationId("교대역"))
+                .queryParam("target", getStationId("양재역"))
+                .build();
+        var response = RestAssured.given().log().all()
+                .when().get(retrieveQueryWithBaseUri.toUri())
+                .then().log().all()
+                .extract()
+                .response();
 
     }
 
