@@ -5,6 +5,8 @@ import java.util.Map;
 
 public class LineRequestGenerator {
 
+    //TODO: 이름 바꾸기 -> LineFixture
+
     public static Map<String, String> 일호선_요청_만들기(final Long upStationId, final Long downStationId) {
         return generateLineCreateRequest("1호선", "bg-blue-600", upStationId, downStationId, 10L);
     }

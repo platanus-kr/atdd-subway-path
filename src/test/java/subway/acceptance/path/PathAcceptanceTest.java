@@ -13,6 +13,8 @@ import java.util.Map;
 public class PathAcceptanceTest extends AcceptanceTest {
     public Map<String, Long> stationsMap = new HashMap<>();
 
+    // TODO: 인수 테스트 작성
+
     /**
      * 교대역  ---- *2호선* --- d:10 ------  강남역
      * |                                    |
@@ -32,9 +34,9 @@ public class PathAcceptanceTest extends AcceptanceTest {
      * Given 3개의 구간을 가진 노선이 있고
      * When 노선의 상행역과 하행역으로 경로를 조회하면
      * Then 4개의 역이 출력된다
-     * Then 3 구간의 모든 길이의 합이 출력된다
+     * Then 3 구간의 모든 거리의 합이 출력된다
      */
-    @DisplayName("지하철 경로를 조회한다")
+    @DisplayName("같은 노선의 경로를 조회한다")
     @Test
     void getPath() {
 
@@ -44,7 +46,7 @@ public class PathAcceptanceTest extends AcceptanceTest {
      * Given 각 구간을 가진 3개의 서로 연결된 노선이 있고
      * When 3 노선을 모두 통과하는 경로를 조회하면
      * Then 경로 조회 결과가 나온다
-     * Then 구간의 모든 길이의 합이 출력된다
+     * Then 구간의 모든 거리의 합이 출력된다
      */
     @DisplayName("다른 노선에 있는 지하철 경로를 조회한다")
     @Test

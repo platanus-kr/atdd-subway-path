@@ -1,5 +1,6 @@
 package subway.line.model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import subway.exception.SubwayBadRequestException;
 import subway.exception.SubwayNotFoundException;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
+@Getter
 @Embeddable
 @NoArgsConstructor
 public class LineSections {
